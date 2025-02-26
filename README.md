@@ -25,9 +25,6 @@ database screenshot
 
 
 
-home page screenshot
-
-![home page](https://github.com/user-attachments/assets/6c8e93c0-edd2-4172-9a1b-53ea8087c388)
 
 :-----------------------------------------------------:
 
