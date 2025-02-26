@@ -1,1 +1,46 @@
 # SureSolve
+
+
+Webpage for an application for Questions and answers platform.
+
+## Requirements
+If you would like to recreate this project, you ought to have a database, ExpressJS Library, NodeJs. pgAdmin and create your database locally (host: localhost, port 54321, username: postgres, database_name, suresolve).
+
+## Installation
+
+To install the project on your local machine, download all the mentioned applications.
+
+## Setup
+You can clone the repository. 
+
+## Issues
+If you have any issues kindly reach out to me here or on email at ivy.munyao@strathmore.edu
+
+## Website Screenshots
+
+
+database screenshot
+
+![er diagram](images\SureSolve (1).png)
+
+
+
+home page screenshot
+
+![home page](https://github.com/user-attachments/assets/6c8e93c0-edd2-4172-9a1b-53ea8087c388)
+
+:-----------------------------------------------------:
+
+
+## Contributing
+Pull requests are not welcome for now. 
+
+## Created & Maintained By
+[Ivy Mumbua](https://github.com/ivyanneh)
+
+
+> If you found this project helpful or you learned something from the source code and want to thank me, consider buying me a cup of :coffee:
+>
+> * [Mpesa](https://paypal.me/KenMusembi/)
+
+> You can also nominate me for Github Star developer program  [here](https://stars.github.com/nominate)
