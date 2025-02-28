@@ -21,8 +21,7 @@ If you have any issues kindly reach out to me here or on email at ivy.munyao@str
 
 database screenshot
 
-![er diagram](<images/SureSolve (1).png>)
-
+![er diagram](<images/final database .png>)
 
 
 
