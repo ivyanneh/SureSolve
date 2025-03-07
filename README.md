@@ -26,11 +26,7 @@ database screenshot
 HLSD screenshot 
 ![High Level SystemDiagram](<images/Suresolve HLSD.png>)
 
-wireframes
 
-
-
-:-----------------------------------------------------:
 
 
 ## Contributing
