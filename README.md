@@ -22,6 +22,7 @@ If you have any issues kindly reach out to me here or on email at ivy.munyao@str
 database screenshot
 
 ![er diagram](<images/final database .png>)
+![High Level SystemDiagram](<images/Suresolve HLSD.png>)
 
 wireframes
 
