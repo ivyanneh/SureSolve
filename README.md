@@ -4,7 +4,7 @@
 Webpage for an application for Questions and answers platform.
 
 ## Requirements
-If you would like to recreate this project, you ought to have a database, ExpressJS Library, NodeJs. pgAdmin and create your database locally (host: localhost, port 54321, username: postgres, database_name, suresolve).
+If you would like to recreate this project, you ought to have a database, ExpressJS Library, NodeJs. pgAdmin and create your database locally (host: localhost, port 5432, username: postgres, database_name, ).
 
 ## Installation
 
@@ -22,6 +22,8 @@ If you have any issues kindly reach out to me here or on email at ivy.munyao@str
 database screenshot
 
 ![er diagram](<images/final database .png>)
+
+HLSD screenshot 
 ![High Level SystemDiagram](<images/Suresolve HLSD.png>)
 
 wireframes
