@@ -3,10 +3,14 @@ import pool from "../db.js";
 
 const router = express.Router();
 
-// Get all users
-router.get("/", async (req, res) => {
+// Get all answers for a specific question
+router.get("/:question_id", async (req, res) => {
+  const { question_id } = req.params;
   try {
-    const result = await pool.query("SELECT * FROM users");
+    const result = await pool.query(
+      "SELECT * FROM answers WHERE question_id = $1",
+      [question_id]
+    );
     res.json(result.rows);
   } catch (err) {
     console.error(err);
@@ -14,13 +18,13 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Create a new user
+// Post an answer to a question
 router.post("/", async (req, res) => {
-  const { username, email } = req.body;
+  const { question_id, user_id, answer_text } = req.body;
   try {
     const result = await pool.query(
-      "INSERT INTO users (username, email) VALUES ($1, $2) RETURNING *",
-      [username, email]
+      "INSERT INTO answers (question_id, user_id, answer_text) VALUES ($1, $2, $3) RETURNING *",
+      [question_id, user_id, answer_text]
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {

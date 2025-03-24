@@ -1,22 +1,11 @@
-import pg from 'pg'; 
-import dotenv from 'dotenv';
-dotenv.config();
-const {Pool} = pg;
+import pkg from "pg";  
+const { Pool } = pkg;  
 
-const db = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
+const pool = new Pool({
+  user: "postgres", 
+  host: "localhost",
+  database: "suresolve", 
+  password: "z>UO:%0o", 
+  port: 5432, 
 });
-
-db.connect((err, client, release) => {
-  if (err) {
-    console.error("❌ Database connection error:", err)
-  } else {
-      console.log("✅ Database connected successfully!");
-    //  release(); // Release the client back to the db
-  }
-});
-export default db;
+export default pool;

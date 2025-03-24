@@ -1,16 +1,33 @@
-import express from 'express';
-import bodyParser from 'body-parser'
-import userRoutes from './routes/users.js'
-import './db.js' 
+import express from "express";
+import bodyParser from 'body-parser';
+
+import questionsRoutes from "./routes/questions.js";
+console.log("✅ Questions routes imported!");
+
+import usersRoutes from "./users.js";
+import answersRoutes from "./answers.js";
+
+
 const app = express();
+const port = 5000;
 
-const PORT = 5000;
+app.use(bodyParser.json())
+app.use(
+    bodyParser.urlencoded({
+        extended: true,
+    })
+)
+app.get("/api/questions", questionsRoutes);
 
-app.use(bodyParser.json());
+app.get("/api", (req, res) => {
+  res.send("Root is working!");
+});
 
-app.get('/', (req, res) => {
-    console.log('[GET ROUTE]');
-    res.send('HELLO FROM HOMEPAGE');
-})
-app.use('/users', userRoutes);
-app.listen(PORT, () => console.log(`Server running on port: http://localhost:${PORT}`));
+app.listen(port, () => {
+  console.log(`✅ Server running on http://localhost:${port}`);
+});
+
+app.use((req, res) => {
+  res.status(404).send(`Cannot ${req.method} ${req.originalUrl}`);
+});
+
