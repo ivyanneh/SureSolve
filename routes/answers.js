@@ -1,11 +1,11 @@
 import express from "express";
-import pool from "../config/db.js";
+import pool from "../db.js";
 
 
-const router = express.Router();
+const answers = express.Router();
 
 // Add an Answer
-router.post("/", async (req, res) => {
+answers.post("/", async (req, res) => {
   const { question_id, answer_text, user_id } = req.body;
   try {
     const newAnswer = await pool.query(
@@ -19,7 +19,7 @@ router.post("/", async (req, res) => {
 });
 
 // Get Answers for a Question
-router.get("/:question_id", async (req, res) => {
+answers.get("/:question_id", async (req, res) => {
   const { question_id } = req.params;
   try {
     const answers = await pool.query("SELECT * FROM answers WHERE question_id = $1", [question_id]);
@@ -29,4 +29,4 @@ router.get("/:question_id", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default answers;

@@ -4,8 +4,8 @@ import bodyParser from 'body-parser';
 import questionsRoutes from "./routes/questions.js";
 console.log("✅ Questions routes imported!");
 
-import usersRoutes from "./users.js";
-import answersRoutes from "./answers.js";
+import usersRoutes from "./routes/users.js";
+import answersRoutes from "./routes/answers.js";
 
 
 const app = express();
@@ -17,7 +17,12 @@ app.use(
         extended: true,
     })
 )
-app.get("/api/questions", questionsRoutes);
+app.get("/api/questions", questionsRoutes.getQuestions);
+app.post("/api/questions", questionsRoutes.createQuestion);
+app.get("/api/questions/:question_id", questionsRoutes.getQuestionById); 
+app.put("/api/questions/:question_id", questionsRoutes.updateQuestion);
+app.put("/api/questions/delete/:question_id",questionsRoutes.deleteQuestion);
+
 
 app.get("/api", (req, res) => {
   res.send("Root is working!");

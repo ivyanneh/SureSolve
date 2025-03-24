@@ -1,10 +1,10 @@
 import express from "express";
 import pool from "../db.js";
 
-const router = express.Router();
+const users = express.Router();
 
 // Get all users
-router.get("/", async (req, res) => {
+users.get("/", async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM users");
     res.json(result.rows);
@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
 });
 
 // Create a new user
-router.post("/", async (req, res) => {
+users.post("/", async (req, res) => {
   const { username, email } = req.body;
   try {
     const result = await pool.query(
@@ -29,4 +29,4 @@ router.post("/", async (req, res) => {
   }
 });
 
-export default router;
+export default users;
