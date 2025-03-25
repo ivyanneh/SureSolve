@@ -5,11 +5,11 @@ import pool from "../db.js";
 
 // Create a Question
 const createQuestion = async (req, res) => {
-  const { question_id, title, description } = req.body;//TO-DO: ADD ALL THE OTHER COLUMNS GOOD!!!
+  const { question_id, unique_id, title, description, category_id,asker_id, has_media, created_at, updated_at, created_by, updated_by, voided, voided_by,voided_reason, voided_date } = req.body;
   try {
     const newQuestion = await pool.query(
       "INSERT INTO questions (question_id,title, description) VALUES ($1, $2, $3) RETURNING *",
-      [question_id, title, description]//MAKE CHANGES HERE
+      [question_id, unique_id, title, description, category_id,asker_id, has_media, created_at, updated_at, created_by, updated_by, voided, voided_by,voided_reason, voided_date]
     );
     res.status(201).json(newQuestion.rows[0]);
   } catch (error) {
@@ -49,7 +49,7 @@ const updateQuestion = async (req, res) => {
   try {
     const newQuestion = await pool.query(
       "UPDATE questions SET title = $1, description = $2, category_id = $3  WHERE question_id = $4 ",
-      [title, description, category_id, question_id]//Add all columns
+      [question_id, unique_id, title, description, category_id,asker_id, has_media, created_at, updated_at, created_by, updated_by, voided, voided_by,voided_reason, voided_date]
     );
     res.status(201).json(newQuestion.rows[0]);
   } catch (error) {
