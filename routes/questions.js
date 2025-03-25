@@ -20,8 +20,17 @@ const createQuestion = async (req, res) => {
 // Get All Questions
 const getQuestions = async (req, res) => {
   try {
-    const questions = await pool.query("SELECT * FROM questions LIMIT 10");//TO-DO:Add pagination
-    res.json(questions.rows);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const offset = (page - 1) * limit;
+    
+    const questions = await pool.query("SELECT * FROM questions LIMIT $1 OFFSET $2");
+    res.json({
+      page,
+      limit,
+      total: questions.rowCount,   
+      questions: questions.rows
+  });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
