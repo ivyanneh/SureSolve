@@ -21,6 +21,7 @@ import { createTag, getTags, getTagById, updateTag, deleteTag } from "./routes/t
 
 import {createRating, getAllRatings, getRatingById, updateRating, deleteRating} from "./routes/rating.js";
 
+import { createStar, getAllStars, getStarById, updateStar, deleteStar } from "./routes/starred.js";
 
 const app = express();
 const port = 5000;
@@ -94,6 +95,13 @@ app.get("/api/rating", getAllRatings);
 app.get("/api/rating/:rating_id", getRatingById);
 app.put("/api/rating/:rating_id", updateRating);
 app.delete("/api/rating/:rating_id", deleteRating);
+
+//  Starred Routes
+app.post("/api/stars", createStar);
+app.get("/api/stars", getAllStars);
+app.get("/api/stars/:star_id", getStarById);
+app.put("/api/stars/:star_id", updateStar);
+app.delete("/api/stars/:star_id", deleteStar);
 
 
 // Root route
