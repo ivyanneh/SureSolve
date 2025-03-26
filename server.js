@@ -10,7 +10,7 @@ import { createUser, getUsers, getUserById, updateUser, deleteUser } from "./rou
 
 import { createBookmark, getAllBookmarks, getBookmarkById, updateBookmark, deleteBookmark } from "./routes/bookmarks.js";
 
-
+import {createCategory, getCategories, getCategoryById, updateCategory, deleteCategory } from "./routes/categories.js";
 
 // Create the app first!
 const app = express();
@@ -44,8 +44,6 @@ app.get("/api/users/:user_id", getUserById);
 app.put("/api/users/:user_id", updateUser);
 app.delete("/api/users/:user_id", deleteUser);
 
-
-
 // Bookmark Routes
 app.post("/api/bookmarks", createBookmark);
 app.get("/api/bookmarks", getAllBookmarks);
@@ -53,7 +51,12 @@ app.get("/api/bookmarks/:bookmark_id", getBookmarkById);
 app.put("/api/bookmarks/:bookmark_id", updateBookmark);
 app.delete("/api/bookmarks/:bookmark_id", deleteBookmark);
 
-
+// Category Routes
+app.post("/api/categories", createCategory);
+app.get("/api/categories", getCategories);
+app.get("/api/categories/:category_id", getCategoryById);
+app.put("/api/categories/:category_id", updateCategory);
+app.delete("/api/categories/:category_id", deleteCategory);
 
 
 // Root route
