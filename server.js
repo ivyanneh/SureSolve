@@ -19,6 +19,8 @@ console.log("✅ Question Tags routes imported!");
 
 import { createTag, getTags, getTagById, updateTag, deleteTag } from "./routes/tags.js";
 
+import {createRating, getAllRatings, getRatingById, updateRating, deleteRating} from "./routes/rating.js";
+
 
 const app = express();
 const port = 5000;
@@ -85,6 +87,14 @@ app.get("/api/tags", getTags);
 app.get("/api/tags/:tag_id", getTagById);
 app.put("/api/tags/:tag_id", updateTag);
 app.delete("/api/tags/:tag_id", deleteTag);
+
+// Rating Routes
+app.post("/api/rating", createRating);
+app.get("/api/rating", getAllRatings);
+app.get("/api/rating/:rating_id", getRatingById);
+app.put("/api/rating/:rating_id", updateRating);
+app.delete("/api/rating/:rating_id", deleteRating);
+
 
 // Root route
 app.get("/api", (req, res) => {
