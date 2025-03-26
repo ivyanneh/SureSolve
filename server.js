@@ -14,7 +14,12 @@ import {createCategory, getCategories, getCategoryById, updateCategory, deleteCa
 
 import {createMedia, getAllMedia, getMediaById, updateMedia, deleteMedia } from "./routes/media.js";
 
-// Create the app first!
+import { createQuestionTag, getQuestionTags, getQuestionTagById, updateQuestionTag, deleteQuestionTag } from "./routes/questionTags.js";
+console.log("✅ Question Tags routes imported!");
+
+import { createTag, getTags, getTagById, updateTag, deleteTag } from "./routes/tags.js";
+
+
 const app = express();
 const port = 5000;
 
@@ -66,6 +71,20 @@ app.get("/api/media", getAllMedia);
 app.get("/api/media/:media_id", getMediaById);
 app.put("/api/media/:media_id", updateMedia);
 app.delete("/api/media/:media_id", deleteMedia);
+
+// QuestionTags Routes
+app.post("/api/questionTags", createQuestionTag);
+app.get("/api/questionTags", getQuestionTags);
+app.get("/api/questionTags/:question_id/:tag_id", getQuestionTagById);
+app.put("/api/questionTags/:question_id/:tag_id", updateQuestionTag);
+app.delete("/api/questionTags/:question_id/:tag_id", deleteQuestionTag);
+
+// Tag Routes
+app.post("/api/tags", createTag);
+app.get("/api/tags", getTags);
+app.get("/api/tags/:tag_id", getTagById);
+app.put("/api/tags/:tag_id", updateTag);
+app.delete("/api/tags/:tag_id", deleteTag);
 
 // Root route
 app.get("/api", (req, res) => {
