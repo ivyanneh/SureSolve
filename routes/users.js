@@ -1,32 +1,94 @@
 import express from "express";
 import pool from "../db.js";
 
-const users = express.Router();
+// Middleware to parse JSON
+const app = express();
+app.use(express.json());
 
-// Get all users
-users.get("/", async (req, res) => {
+// Create a User
+const createUser = async (req, res) => {
+  const { user_id,name, email, password, phone_number, profile_picture, address, status, created_at, updated_at, created_by, updated_by, voided, voided_by, voided_reason, voided_date } = req.body;
   try {
-    const result = await pool.query("SELECT * FROM users");
-    res.json(result.rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
-// Create a new user
-users.post("/", async (req, res) => {
-  const { username, email } = req.body;
-  try {
-    const result = await pool.query(
-      "INSERT INTO users (username, email) VALUES ($1, $2) RETURNING *",
-      [username, email]
+    const newUser = await pool.query(
+      `INSERT INTO users (user_id, name, email, password, phone_number, profile_picture, address, status, created_at, updated_at, created_by, updated_by, voided, voided_by, voided_reason, voided_date) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) 
+      RETURNING *`,
+      [user_id, name, email, password, phone_number, profile_picture, address, status, created_at, updated_at, created_by, updated_by, voided, voided_by, voided_reason, voided_date]
     );
-    res.status(201).json(result.rows[0]);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(201).json(newUser.rows[0]);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
-});
+};
 
-export default users;
+// Get All Users
+const getUsers = async (req, res) => {
+  try {
+    const users = await pool.query("SELECT * FROM users");
+    if (users.rows.length === 0)
+      return res.status(404).json({ error: "No users found" });
+    res.json(users.rows);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Get a Single User by ID
+const getUserById = async (req, res) => {
+  const { user_id } = req.params;
+  try {
+    const user = await pool.query("SELECT * FROM users WHERE user_id = $1", [user_id]);
+    if (user.rows.length === 0)
+      return res.status(404).json({ error: "User not found" });
+    res.json(user.rows[0]);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Update a User
+const updateUser = async (req, res) => {
+  const { user_id } = req.params;  // Get user_id from the URL
+  const { name, email, phone_number, profile_picture, address, status, updated_at, updated_by } = req.body;
+
+  try {
+    const updatedUser = await pool.query(
+      `UPDATE users 
+       SET name = $1, email = $2, phone_number = $3, profile_picture = $4, address = $5, status = $6, updated_at = $7, updated_by = $8
+       WHERE user_id = $9 
+       RETURNING *`,
+      [name, email, phone_number, profile_picture, address, status, updated_at, updated_by, user_id]
+    );
+
+    if (updatedUser.rows.length === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json(updatedUser.rows[0]);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+
+// Delete a User (Soft Delete)
+const deleteUser = async (req, res) => {
+  const { user_id } = req.params;
+  const { voided, voided_by, voided_reason } = req.body;
+  try {
+    const deletedUser = await pool.query(
+      `UPDATE users 
+      SET voided = $1, voided_by = $2, voided_reason = $3, voided_date = now() 
+      WHERE user_id = $4 
+      RETURNING *`,
+      [voided, voided_by, voided_reason, user_id]
+    );
+    if (deletedUser.rows.length === 0)
+      return res.status(404).json({ error: "User not found" });
+    res.json(deletedUser.rows[0]);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+export { createUser, getUsers, getUserById, updateUser, deleteUser };
