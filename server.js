@@ -23,6 +23,8 @@ import {createRating, getAllRatings, getRatingById, updateRating, deleteRating} 
 
 import { createStar, getAllStars, getStarById, updateStar, deleteStar } from "./routes/starred.js";
 
+import { createVote, getAllVotesForAnswer, getVoteById, updateVote, deleteVote } from "./routes/votes.js";
+
 const app = express();
 const port = 5000;
 
@@ -102,6 +104,13 @@ app.get("/api/stars", getAllStars);
 app.get("/api/stars/:star_id", getStarById);
 app.put("/api/stars/:star_id", updateStar);
 app.delete("/api/stars/:star_id", deleteStar);
+
+// Vote Routes
+app.post("/api/votes", createVote);
+app.get("/api/votes/answer/:answer_id", getAllVotesForAnswer);
+app.get("/api/votes/:vote_id", getVoteById);
+app.put("/api/votes/:vote_id", updateVote);
+app.delete("/api/votes/:vote_id", deleteVote);
 
 
 // Root route
