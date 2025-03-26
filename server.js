@@ -8,6 +8,10 @@ import { createAnswer, getAnswers, getAnswerById, updateAnswer, deleteAnswer } f
 
 import { createUser, getUsers, getUserById, updateUser, deleteUser } from "./routes/users.js";
 
+import { createBookmark, getAllBookmarks, getBookmarkById, updateBookmark, deleteBookmark } from "./routes/bookmarks.js";
+
+
+
 // Create the app first!
 const app = express();
 const port = 5000;
@@ -39,6 +43,18 @@ app.get("/api/users", getUsers);
 app.get("/api/users/:user_id", getUserById);
 app.put("/api/users/:user_id", updateUser);
 app.delete("/api/users/:user_id", deleteUser);
+
+
+
+// Bookmark Routes
+app.post("/api/bookmarks", createBookmark);
+app.get("/api/bookmarks", getAllBookmarks);
+app.get("/api/bookmarks/:bookmark_id", getBookmarkById);
+app.put("/api/bookmarks/:bookmark_id", updateBookmark);
+app.delete("/api/bookmarks/:bookmark_id", deleteBookmark);
+
+
+
 
 // Root route
 app.get("/api", (req, res) => {
