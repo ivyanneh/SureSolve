@@ -12,6 +12,8 @@ import { createBookmark, getAllBookmarks, getBookmarkById, updateBookmark, delet
 
 import {createCategory, getCategories, getCategoryById, updateCategory, deleteCategory } from "./routes/categories.js";
 
+import {createMedia, getAllMedia, getMediaById, updateMedia, deleteMedia } from "./routes/media.js";
+
 // Create the app first!
 const app = express();
 const port = 5000;
@@ -58,6 +60,12 @@ app.get("/api/categories/:category_id", getCategoryById);
 app.put("/api/categories/:category_id", updateCategory);
 app.delete("/api/categories/:category_id", deleteCategory);
 
+// Media Routes
+app.post("/api/media", createMedia);
+app.get("/api/media", getAllMedia);
+app.get("/api/media/:media_id", getMediaById);
+app.put("/api/media/:media_id", updateMedia);
+app.delete("/api/media/:media_id", deleteMedia);
 
 // Root route
 app.get("/api", (req, res) => {
