@@ -63,18 +63,17 @@ const updateTag = async (req, res) => {
 
 //  Delete (Void) a Tag
 const deleteTag = async (req, res) => {
-  const { tag_id } = req.params;
-  const { voided_by, voided_reason } = req.body;
+  const  tag_id  =  parseInt(req.params.tag_id);
+  const { voided, voided_by, voided_reason } = req.body;
   try {
     const deletedTag = await pool.query(
       `UPDATE tags 
-       SET voided = true, voided_by = $1, voided_reason = $2, voided_date = now()
-       WHERE tag_id = $3 
-       RETURNING *`,
-      [voided_by, voided_reason, tag_id]
+       SET voided = $1, voided_by = $2, voided_reason = $3, voided_date = now()
+       WHERE tag_id = $4 
+       `,
+      [voided, voided_by, voided_reason, tag_id]
     );
-    if (deletedTag.rows.length === 0) return res.status(404).json({ error: "Tag not found" });
-    res.json(deletedTag.rows[0]);
+    
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

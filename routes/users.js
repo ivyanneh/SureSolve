@@ -52,15 +52,15 @@ const getUserById = async (req, res) => {
 // Update a User
 const updateUser = async (req, res) => {
   const { user_id } = req.params;  // Get user_id from the URL
-  const { name, email, phone_number, profile_picture, address, status, updated_at, updated_by } = req.body;
+  const { name, email, phone_number, profile_picture, address, status, updated_by } = req.body;
 
   try {
     const updatedUser = await pool.query(
       `UPDATE users 
-       SET name = $1, email = $2, phone_number = $3, profile_picture = $4, address = $5, status = $6, updated_at = $7, updated_by = $8
-       WHERE user_id = $9 
+       SET name = $1, email = $2, phone_number = $3, profile_picture = $4, address = $5, status = $6, updated_at = now(), updated_by = $7
+       WHERE user_id = $8
        RETURNING *`,
-      [name, email, phone_number, profile_picture, address, status, updated_at, updated_by, user_id]
+      [name, email, phone_number, profile_picture, address, status, updated_by, user_id]
     );
 
     if (updatedUser.rows.length === 0) {
@@ -76,18 +76,15 @@ const updateUser = async (req, res) => {
 
 // Delete a User (Soft Delete)
 const deleteUser = async (req, res) => {
-  const { user_id } = req.params;
+  const user_id  = parseInt(req.params.user_id);
   const { voided, voided_by, voided_reason } = req.body;
+
   try {
     const deletedUser = await pool.query(
-      `UPDATE users 
-      SET voided = $1, voided_by = $2, voided_reason = $3, voided_date = now() 
-      WHERE user_id = $4 
-      RETURNING *`,
+     "UPDATE users SET voided = $1, voided_by = $2, voided_reason =$3, voided_date = now() WHERE user_id = $4",
       [voided, voided_by, voided_reason, user_id]
     );
-    if (deletedUser.rows.length === 0)
-      return res.status(404).json({ error: "User not found" });
+
     res.json(deletedUser.rows[0]);
   } catch (error) {
     res.status(400).json({ error: error.message });
