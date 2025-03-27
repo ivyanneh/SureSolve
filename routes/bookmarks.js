@@ -4,20 +4,20 @@ import pool from "../db.js";
 const app = express();
 app.use(express.json());
 
-// Create a Bookmark
 const createBookmark = async (req, res) => {
-  const { bookmark_id, user_id, question_id, answer_id, created_at, updated_at, voided, voided_by, voided_reason, voided_date } = req.body;
+  const { user_id, question_id, answer_id, created_at, updated_at, voided, voided_by, voided_reason, voided_date } = req.body;
   try {
     const newBookmark = await pool.query(
-      `INSERT INTO bookmarks (bookmark_id, user_id, question_id, answer_id, created_at, updated_at, voided, voided_by, voided_reason, voided_date)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`,
-      [bookmark_id, user_id, question_id, answer_id, created_at, updated_at, voided, voided_by, voided_reason, voided_date]
+      `INSERT INTO bookmarks (user_id, question_id, answer_id, created_at, updated_at, voided, voided_by, voided_reason, voided_date)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
+      [user_id, question_id, answer_id, created_at, updated_at, voided, voided_by, voided_reason, voided_date]
     );
     res.status(201).json(newBookmark.rows[0]);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
+
 
 // Get All Bookmarks
 const getAllBookmarks = async (req, res) => {

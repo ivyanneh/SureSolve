@@ -5,13 +5,13 @@ import pool from "../db.js";
 const app = express();
 app.use(express.json());
 
-// Create an Answer
 const createAnswer = async (req, res) => {
-  const { answer_id, question_id, user_id, answer_text, has_media, is_accepted, created_at, updated_at, created_by, updated_by, voided, voided_by, voided_reason, voided_date } = req.body;
+  const { question_id, user_id, answer_text, has_media, is_accepted, created_at, updated_at, created_by, updated_by, voided, voided_by, voided_reason, voided_date } = req.body;
+  
   try {
     const newAnswer = await pool.query(
-      "INSERT INTO answers (answer_id, question_id, user_id, answer_text, has_media, is_accepted, created_at, updated_at, created_by, updated_by, voided, voided_by, voided_reason, voided_date) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *",
-      [answer_id, question_id, user_id, answer_text, has_media, is_accepted, created_at, updated_at, created_by, updated_by, voided, voided_by, voided_reason, voided_date]
+      "INSERT INTO answers (question_id, user_id, answer_text, has_media, is_accepted, created_at, updated_at, created_by, updated_by, voided, voided_by, voided_reason, voided_date) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *",
+      [question_id, user_id, answer_text, has_media, is_accepted, created_at, updated_at, created_by, updated_by, voided, voided_by, voided_reason, voided_date]
     );
     res.status(201).json(newAnswer.rows[0]);
   } catch (error) {

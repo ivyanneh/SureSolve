@@ -9,9 +9,10 @@ const createStar = async (req, res) => {
   const { star_id, user_id, question_id, answer_id, created_by } = req.body;
   try {
     const newStar = await pool.query(
-        "INSERT INTO starred (star_id, user_id, question_id) VALUES ($1, $2, $3) RETURNING *",
-        [star_id, user_id, question_id]
-      );
+      "INSERT INTO starred (user_id, question_id) VALUES ($1, $2) RETURNING *",
+      [user_id, question_id]
+  );
+  
       
     res.status(201).json(newStar.rows[0]);
   } catch (error) {

@@ -11,13 +11,14 @@ const createTag = async (req, res) => {
     const newTag = await pool.query(
       `INSERT INTO tags (name, created_at, updated_at, created_by) 
        VALUES ($1, now(), now(), $2) RETURNING *`,
-      [name, created_by]
+      [name, created_by]  // 🚀 No need to pass tag_id anymore
     );
     res.status(201).json(newTag.rows[0]);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
+
 
 //  Get All Tags
 const getTags = async (req, res) => {

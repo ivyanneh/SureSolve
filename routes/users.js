@@ -7,19 +7,22 @@ app.use(express.json());
 
 // Create a User
 const createUser = async (req, res) => {
-  const { user_id,name, email, password, phone_number, profile_picture, address, status, created_at, updated_at, created_by, updated_by, voided, voided_by, voided_reason, voided_date } = req.body;
+  const { name, email, password, phone_number, profile_picture, address, status, created_at, updated_at, created_by, updated_by, voided, voided_by, voided_reason, voided_date } = req.body;
+
   try {
     const newUser = await pool.query(
-      `INSERT INTO users (user_id, name, email, password, phone_number, profile_picture, address, status, created_at, updated_at, created_by, updated_by, voided, voided_by, voided_reason, voided_date) 
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) 
+      `INSERT INTO users (name, email, password, phone_number, profile_picture, address, status, created_at, updated_at, created_by, updated_by, voided, voided_by, voided_reason, voided_date) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) 
       RETURNING *`,
-      [user_id, name, email, password, phone_number, profile_picture, address, status, created_at, updated_at, created_by, updated_by, voided, voided_by, voided_reason, voided_date]
+      [name, email, password, phone_number, profile_picture, address, status, created_at, updated_at, created_by, updated_by, voided, voided_by, voided_reason, voided_date]
     );
+
     res.status(201).json(newUser.rows[0]);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
+
 
 // Get All Users
 const getUsers = async (req, res) => {

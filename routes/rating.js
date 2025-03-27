@@ -6,21 +6,20 @@ router.use(express.json());
 
 // Create a Rating
 const createRating = async (req, res) => {
-    const { user_id, question_id, rating_value } = req.body;
-  
-    try {
-        const { rating_id, user_id, question_id, rating_value } = req.body;
-        const newRating = await pool.query(
-          "INSERT INTO rating (rating_id, user_id, question_id, rating_value) VALUES ($1, $2, $3, $4) RETURNING *",
-          [rating_id, user_id, question_id, rating_value]
-        );
-        res.status(201).json(newRating.rows[0]);
-        
+  const { user_id, question_id, rating_value } = req.body;
 
-    } catch (error) {
-      res.status(400).json({ error: error.message });
-    }
-  };
+  try {
+      const newRating = await pool.query(
+        `INSERT INTO rating (user_id, question_id, rating_value) 
+         VALUES ($1, $2, $3) RETURNING *`,
+        [user_id, question_id, rating_value]
+      );
+      res.status(201).json(newRating.rows[0]);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 
 // Get All Ratings
 const getAllRatings = async (req, res) => {

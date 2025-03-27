@@ -32,16 +32,17 @@ const createMedia = async (req, res) => {
 
 
 
-      const newMedia = await pool.query(
+    const newMedia = await pool.query(
       `INSERT INTO media (
-        media_id, related_id, media_type, media_url, created_at, updated_at, 
+        related_id, media_type, media_url, created_at, updated_at, 
         created_by, updated_by, voided, voided_by, voided_reason, voided_date
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *`,
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *`,
       [
-        media_id, related_id, media_type, media_url, created_at, updated_at,
+        related_id, media_type, media_url, created_at, updated_at,
         created_by, updated_by, voided, voided_by, voided_reason, voided_date
       ]
     );
+    
     res.status(201).json(newMedia.rows[0]);
   } catch (error) {
     res.status(400).json({ error: error.message });

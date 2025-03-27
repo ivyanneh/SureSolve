@@ -5,17 +5,21 @@ import pool from "../db.js";
 
 // Create a Question
 const createQuestion = async (req, res) => {
-  const { question_id, unique_id, title, description, category_id,asker_id, has_media, created_at, updated_at, created_by, updated_by, voided, voided_by,voided_reason, voided_date } = req.body;
+  const { unique_id, title, description, category_id, asker_id, has_media, created_at, updated_at, created_by, updated_by, voided, voided_by, voided_reason, voided_date } = req.body;
+
   try {
     const newQuestion = await pool.query(
-      "INSERT INTO questions (question_id,title, description) VALUES ($1, $2, $3) RETURNING *",
-      [question_id, unique_id, title, description, category_id,asker_id, has_media, created_at, updated_at, created_by, updated_by, voided, voided_by,voided_reason, voided_date]
+      `INSERT INTO questions (unique_id, title, description, category_id, asker_id, has_media, created_at, updated_at, created_by, updated_by, voided, voided_by, voided_reason, voided_date) 
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) 
+       RETURNING *`,
+      [unique_id, title, description, category_id, asker_id, has_media, created_at, updated_at, created_by, updated_by, voided, voided_by, voided_reason, voided_date]
     );
     res.status(201).json(newQuestion.rows[0]);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
+
 
 // Get All Questions
 const getQuestions = async (req, res) => {
@@ -54,17 +58,27 @@ const getQuestionById = async (req, res) => {
 
 const updateQuestion = async (req, res) => {
   const { question_id } = req.params;
-  const { title, description, category_id } = req.body;
+  const { title, description, category_id, updated_at, updated_by } = req.body;
+
   try {
-    const newQuestion = await pool.query(
-      "UPDATE questions SET title = $1, description = $2, category_id = $3  WHERE question_id = $4 ",
-      [question_id, unique_id, title, description, category_id,asker_id, has_media, created_at, updated_at, created_by, updated_by, voided, voided_by,voided_reason, voided_date]
+    const updatedQuestion = await pool.query(
+      `UPDATE questions 
+       SET title = $1, description = $2, category_id = $3, updated_at = $4, updated_by = $5
+       WHERE question_id = $6 
+       RETURNING *`,
+      [title, description, category_id, updated_at, updated_by, question_id]
     );
-    res.status(201).json(newQuestion.rows[0]);
+
+    if (updatedQuestion.rows.length === 0) {
+      return res.status(404).json({ error: "Question not found" });
+    }
+
+    res.json(updatedQuestion.rows[0]);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
+
 
 const deleteQuestion = async (req, res) => {
   const question_id = parseInt(req.params.question_id);

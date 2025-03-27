@@ -1,20 +1,23 @@
 import express from "express";
 import pool from "../db.js";
 
-// Create a Category
+const app = express();
+app.use(express.json());
+
 const createCategory = async (req, res) => {
-  const { category_id, name, description, created_at, updated_at } = req.body;
+  const { name, description, created_at, updated_at } = req.body;
   try {
     const newCategory = await pool.query(
-      `INSERT INTO categories (category_id, name, description, created_at, updated_at)
-      VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-      [category_id, name, description, created_at, updated_at]
+      `INSERT INTO categories (name, description, created_at, updated_at)
+      VALUES ($1, $2, $3, $4) RETURNING *`,
+      [name, description, created_at, updated_at]
     );
     res.status(201).json(newCategory.rows[0]);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
+
 
 // Get All Categories
 const getCategories = async (req, res) => {
