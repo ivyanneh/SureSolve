@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 
 // Create a User
-const createUser = async (req, res) => {
+export const createUser = async (req, res) => {
   const { name, email, password, phone_number, profile_picture, address, status, created_at, updated_at, created_by, updated_by, voided, voided_by, voided_reason, voided_date } = req.body;
 
   try {
@@ -25,7 +25,7 @@ const createUser = async (req, res) => {
 
 
 // Get All Users
-const getUsers = async (req, res) => {
+export const getUsers = async (req, res) => {
   try {
     const users = await pool.query("SELECT * FROM users");
     if (users.rows.length === 0)
@@ -37,7 +37,7 @@ const getUsers = async (req, res) => {
 };
 
 // Get a Single User by ID
-const getUserById = async (req, res) => {
+export const getUserById = async (req, res) => {
   const { user_id } = req.params;
   try {
     const user = await pool.query("SELECT * FROM users WHERE user_id = $1", [user_id]);
@@ -50,7 +50,7 @@ const getUserById = async (req, res) => {
 };
 
 // Update a User
-const updateUser = async (req, res) => {
+export const updateUser = async (req, res) => {
   const { user_id } = req.params;  // Get user_id from the URL
   const { name, email, phone_number, profile_picture, address, status, updated_by } = req.body;
 
@@ -75,7 +75,7 @@ const updateUser = async (req, res) => {
 
 
 // Delete a User (Soft Delete)
-const deleteUser = async (req, res) => {
+export const deleteUser = async (req, res) => {
   const user_id  = parseInt(req.params.user_id);
   const { voided, voided_by, voided_reason } = req.body;
 
